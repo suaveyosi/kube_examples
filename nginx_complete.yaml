@@ -1,0 +1,48 @@
+---
+# Deployment
+  apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    name: mysite
+  spec: 
+    replicas: 2
+    template:
+      metadata:
+        labels:
+          app: mynginx
+      spec:
+        containers:
+          - name: front-end
+            image: suaveyosi/mynginx
+            ports:
+              - containerPort: 80
+
+---
+# Expose port by service
+  kind: Service
+  apiVersion: v1
+  metadata:
+    name: nginx-service
+  spec:
+# Thanks to selector service knows where it has to map
+    selector: 
+      app: mynginx
+    ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+    type: NodePort
+
+---
+# Include memory limitation to prevent failures
+  apiVersion: v1 
+  kind: LimitRange
+  metadata:
+    name: mem-limit-range
+  spec:
+    limits:
+    - default:
+        memory: 512Mi
+      defaultRequest:
+        memory: 256Mi
+      type: Container
