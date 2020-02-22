@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: suaveyosi-service
+spec:
+  selector:
+    app: mynginx
+  ports:
+  - port: 8000
+    targetPort: 80
+  # Specifying LoadBalancer as type it will expose the ip to outside our cluster, making it accessible from exterior
+  type: LoadBalancer
