@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name:  hello-world
+spec:
+  template:
+    metadata:
+      name:  hello-world
+    spec:
+      containers:
+      - name: batchjob
+        image: ubuntu
+        command:
+          - "/bin/bash"
+          - "-c"
+          - "/bin/echo hola que tal soy el pod $(hostname) at $(date)"
+      # Really important to define restartPolicy different to Always. Otherwise it won't work
+      restartPolicy: Never
+          

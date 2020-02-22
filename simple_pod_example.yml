@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-ssd
+# Podemos añadir anotaciones que nos ayuden a nosotros como humanos, aunque para Kubernetes le dan igual
+  annotation: owner: David
+spec:
+  containers: 
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+# Mediante nodeSelector podemos elegir que corra únicamente sobre los nodos que tengan ese label
+#  nodeSelector:
+#    disk: local_ssd
+ 

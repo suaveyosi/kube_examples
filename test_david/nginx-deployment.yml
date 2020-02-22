@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: suaveyosi-mynginx
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: suaveyosi-mynginx
+  template:
+    metadata:
+      labels:
+        app: suaveyosi-mynginx
+    spec:
+      containers:
+      - name: suaveyosi-mynginx
+        image: suaveyosi/mynginx:3.0
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "52m"
+        ports:
+        - containerPort: 80
+        readinessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
