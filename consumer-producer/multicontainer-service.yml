@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: multicontainer-service
+spec:
+  selector:
+    app: multi-container-app
+  ports:
+  - name:  my-ports
+    port:  8000
+    targetPort:  80
+  type: LoadBalancer
