@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-vars
+  labels:
+    app: test-vars
+spec:
+  selector:
+    matchLabels:
+      app: test-vars
+  template:
+    metadata:
+      name: nginx-test-vars
+      labels:
+        app: test-vars
+    spec:
+      containers:
+      - name: test-vars
+        image: suaveyosi/testvars:latest
+        ports:
+        - containerPort: 80
+        env:
+          - name: PORT
+            value: "80"
+          - name: CONTENT
+            value: "Este es un deploy desde k8s"
+        command: ["/bin/bash"]
+        args: ["-c", "while true; do echo ${CONTENT} $(date) >> /usr/share/nginx/html/index.html; sleep 10; done"]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-vars
+spec:
+  selector:
+    app: myapp
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 80

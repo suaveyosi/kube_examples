@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-configmap
+spec:
+  selector:
+    matchLabels:
+      app: app-configmap
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-configmap
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu
+        command: ["/bin/bash"]
+        args: ["-c","while true; do sleep 5; done"]
+        envFrom:
+          - configMapRef:
+              name: appconfigprod
+

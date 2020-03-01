@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: appconfigprod
+data:
+  DB_SERVERNAME: prosql2.example.local
+  BACKEND_SERVERNAME: probe.example.local
